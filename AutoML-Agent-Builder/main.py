@@ -6,7 +6,6 @@ from agent import AutoMLAgent
 def main():
     print("🔍 AutoML-Agent-Builder başlatılıyor...\n")
 
-    # Kullanıcıdan dosya yolu al
     file_path = input("Lütfen veri dosyasının yolunu girin (örn: data/sample.csv): ")
 
     try:
@@ -16,7 +15,6 @@ def main():
         print(f"❌ Veri okunamadı: {e}")
         return
 
-    # Agent'i başlat
     agent = AutoMLAgent(df)
     agent.run()
 

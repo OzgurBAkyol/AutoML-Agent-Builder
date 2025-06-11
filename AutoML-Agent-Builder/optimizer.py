@@ -31,7 +31,6 @@ def optimize_model(model, X, y, task_type):
     print(f"🏁 En iyi skor: {study.best_value}")
     print(f"🔧 En iyi parametreler: {study.best_params}")
 
-    # En iyi model ile eğitimi yap
     best_params = study.best_params
     if task_type == "classification":
         best_model = RandomForestClassifier(**best_params)
