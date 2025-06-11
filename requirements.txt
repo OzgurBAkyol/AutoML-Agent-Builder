@@ -1,0 +1,16 @@
+numpy~=2.2.3
+zlib~=1.2.13
+pip~=24.2
+wheel~=0.44.0
+openssl~=3.0.15
+pandas~=2.2.3
+pytz~=2025.1
+requests~=2.32.3
+setuptools~=75.1.0
+charset-normalizer~=3.4.1
+python-dateutil~=2.9.0.post0
+certifi~=2025.1.31
+urllib3~=2.3.0
+six~=1.17.0
+idna~=3.10
+python~=3.12.8
