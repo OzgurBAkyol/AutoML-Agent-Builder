@@ -6,6 +6,7 @@ from agent import AutoMLAgent
 def main():
     print("🔍 AutoML-Agent-Builder başlatılıyor...\n")
 
+    # 1. Veri dosyasını al
     file_path = input("Lütfen veri dosyasının yolunu girin (örn: data/sample.csv): ")
 
     try:
@@ -15,7 +16,13 @@ def main():
         print(f"❌ Veri okunamadı: {e}")
         return
 
-    agent = AutoMLAgent(df)
+    # 2. Kullanıcıdan metrik girilmesini iste
+    print("\n📏 Kullanmak istediğiniz değerlendirme metriğini girin:")
+    print("📌 Örnekler: accuracy, f1, roc_auc, r2, neg_root_mean_squared_error")
+    metric = input("→ Skor metriği: ").strip()
+
+    # 3. Agent'i başlat ve çalıştır
+    agent = AutoMLAgent(df, metric=metric)
     agent.run()
 
 if __name__ == "__main__":

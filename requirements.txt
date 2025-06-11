@@ -53,3 +53,8 @@ wordcloud~=1.9.4
 kiwisolver~=1.4.8
 ydata-profiling~=4.16.1
 tqdm~=4.67.1
+xgboost
+lightgbm
+catboost
+
+typing_extensions~=4.12.2

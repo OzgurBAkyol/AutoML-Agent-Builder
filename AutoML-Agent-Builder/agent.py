@@ -1,18 +1,23 @@
-# agent.py
-
 from profiler import generate_profiling_report
 from preprocess import preprocess_data
-from model_selector import detect_task_type, select_model
+from model_selector import detect_task_type
 from optimizer import optimize_model
+from xgboost import XGBClassifier, XGBRegressor
+from lightgbm import LGBMClassifier, LGBMRegressor
+from catboost import CatBoostClassifier, CatBoostRegressor
+
+
+from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
+from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
 
 import joblib
 
 class AutoMLAgent:
-    def __init__(self, dataframe):
+    def __init__(self, dataframe, metric="accuracy"):
         self.df = dataframe
+        self.metric = metric
         self.task_type = None
         self.target_column = None
-        self.model = None
         self.best_model = None
 
     def run(self):
@@ -33,12 +38,29 @@ class AutoMLAgent:
         self.task_type = detect_task_type(y)
         print(f"✅ Belirlenen görev: {self.task_type.upper()}")
 
-        print("\n🤖 [4/5] Model seçiliyor ve optimize ediliyor...")
-        self.model = select_model(self.task_type)
-        self.best_model = optimize_model(self.model, X, y, self.task_type)
+        print("\n🤖 [4/5] En uygun model aranıyor (Optuna + Cross-Validation)...")
+
+        # Çoklu model listesi
+        if self.task_type == "classification":
+            models = [
+                RandomForestClassifier,
+                GradientBoostingClassifier,
+                XGBClassifier,
+                LGBMClassifier,
+                CatBoostClassifier
+            ]
+        else:
+            models = [
+                RandomForestRegressor,
+                GradientBoostingRegressor,
+                XGBRegressor,
+                LGBMRegressor,
+                CatBoostRegressor
+            ]
+
+        self.best_model = optimize_model(models, X, y, self.task_type, self.metric)
 
         print("\n💾 [5/5] En iyi model 'outputs/best_model.pkl' olarak kaydediliyor...")
         joblib.dump(self.best_model, "outputs/best_model.pkl")
 
         print("\n✅ AutoML işlemi başarıyla tamamlandı!")
-
